@@ -1,5 +1,6 @@
 version: 2.1
 
+
 jobs:
   build-frontend:
     docker:
@@ -14,7 +15,7 @@ jobs:
             cd frontend
             npm install
             npm run build
-            # exit 1
+          # exit 1
       # - save_cache:
       #     paths: [frontend/node_modules]
       #     key: frontend-build
@@ -36,6 +37,7 @@ jobs:
       # - save_cache:
       #     paths: [backend/node_modules]
       #     key: backend-build
+
 
 workflows:
   default:
