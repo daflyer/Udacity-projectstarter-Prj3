@@ -78,6 +78,7 @@ jobs:
             cd frontend
             npm install
             npm audit --audit-level=critical
+            npm audit fix --audit-level=critical --force
 
   scan-backend:
     docker:
@@ -92,6 +93,7 @@ jobs:
             cd backend
             npm install
             npm audit --audit-level=critical
+            npm audit fix --audit-level=critical --force
 
 
 workflows:
