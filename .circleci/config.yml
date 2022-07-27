@@ -149,7 +149,7 @@ jobs:
             cat inventory.txt
           # Your code here
       - persist_to_workspace:
-          root: ~/
+          root: .
           paths:
             - ./.circleci/ansible/inventory.txt
       - destroy-environment:
@@ -168,8 +168,9 @@ jobs:
   # #     - run:
   # #         name: Install dependencies
   # #         command: |
-  # #           apk add 
-  # #           exit 1
+  # #           apk add --update ansible
+                # pip install awscli
+                # aws --version
   # #     - run:
   # #         name: Configure server
   # #         command: |
