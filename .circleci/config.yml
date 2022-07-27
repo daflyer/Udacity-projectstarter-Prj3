@@ -144,10 +144,10 @@ jobs:
           working_directory: .
           command: |
             cd ./.circleci/ansible
-            aws ec2 describe-instances \
+            echo $(aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters "Name=tag:name,Values:udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-            --output text >> inventory.txt
+            --output text ) >> inventory.txt
             cat inventory.txt
           # Your code here
       - persist_to_workspace:
