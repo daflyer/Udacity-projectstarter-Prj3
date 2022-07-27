@@ -145,7 +145,7 @@ jobs:
           command: |
             # cd ./.circleci/ansible
             echo $(aws ec2 describe-instances \
-            --query 'Reservations[*].Instances[*].PublicIpAddress' \
+            --query 'Reservations[*].Instances[*].PublicIPAddress' \
             --filters "Name=tag:name,Values:udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
             --output text ) >> .circleci/ansible/inventory.txt
             cat .circleci/ansible/inventory.txt
