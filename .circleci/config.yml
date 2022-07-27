@@ -1,5 +1,23 @@
 version: 2.1
 
+commands:
+  destroy-environment:
+    description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
+    parameters:
+      workflow_id:
+        type: string
+        default: "${CIRCLE_WORKFLOW_ID}"
+    steps:
+      - run:
+          name: Destroy environments
+          when: on_fail
+          command: |
+            aws cloudformation delete-stack --stack-name udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
+      - run:
+          name: Destroy environments
+          when: on_fail
+          command: |
+            aws cloudformation delete-stack --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
 
 jobs:
   build-frontend:
@@ -119,6 +137,23 @@ jobs:
               --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"
               --tags project=udapeople
+      - run:
+          name: Add backend ip to ansible inventory
+          working_directory: .
+          command: |
+            cd ./.circleci.ansible
+            echo $(aws ec2 describe-instances \
+            --query 'Reservations[*].Instances[*].PublicIpAddress' \
+            --filters "Name=tag:Name, Values:udapeople-backendIP-${CIRCLE_WORKFLOW_ID:0:7}" \
+            --output text ) >> inventory.txt
+            cat inventory.txt
+          # Your code here
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - ./.circleci/ansible/inventory.txt
+      - destroy-environment:
+          id: "${CIRCLE_WORKFLOW_ID}"
 
 workflows:
   default:
@@ -135,3 +170,6 @@ workflows:
           requires: [build-frontend]
       - deploy-infrastructure:
           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+          filters:
+            branches:
+              only: [test-feature-branch]
