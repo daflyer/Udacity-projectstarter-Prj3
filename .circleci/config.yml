@@ -141,7 +141,7 @@ jobs:
           name: Add backend ip to ansible inventory
           working_directory: .
           command: |
-            cd ./.circleci.ansible
+            cd ./.circleci/ansible
             echo $(aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters "Name=tag:Name, Values:udapeople-backendIP-${CIRCLE_WORKFLOW_ID:0:7}" \
@@ -159,13 +159,16 @@ jobs:
   #   docker:
   #     -image: python:3.10-alpine3.16
   #   steps:
-  #     # Checkout code from git
-  #     # Add ssh keys with fingerprint
+  #     - checkout
+  #     add_ssh_keys :
+          fingerprints: ["3e:b6:07:df:a4:32:82:43:0d:9e:a1:05:1f:da:84:01"]
   #     # attach workspace
+        - attach_workspace:
+            at: .
   #     - run:
   #         name: Install dependencies
   #         command: |
-  #           # Your code here
+  #           apk add 
   #           exit 1
   #     - run:
   #         name: Configure server
