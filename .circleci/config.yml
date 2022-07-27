@@ -143,7 +143,6 @@ jobs:
           name: Add backend ip to ansible inventory
           working_directory: ./.circleci/ansible
           command: |
-# cd ./.circleci/ansible
             echo $(aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIPAddress' \
             --filters "Name=tag:name,Values:udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
