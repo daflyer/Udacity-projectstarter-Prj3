@@ -173,7 +173,7 @@ jobs:
       - destroy-environment:
           workflow_id: "${CIRCLE_WORKFLOW_ID}"
 
-configure-infrastructure:
+  configure-infrastructure:
     docker:
       - image: python3.7-alpine3.16
     steps:
