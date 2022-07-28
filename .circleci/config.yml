@@ -132,12 +132,12 @@ jobs:
 
   deploy-infrastructure:
     docker:
-      - image: cimg/python:3.10
+      - image: amazon/aws-cli
     steps:
       - checkout
       - run:
           name: install tar and gzip
-          command: yum install -y tar gzip
+          command:  install -y tar gzip
       - run:
           name: Ensure backend infrastructure exists
           command: |
@@ -165,6 +165,7 @@ jobs:
             --filters Name=tag:aws:cloudformation:stack-name,Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7} \
             --output text) 
             echo BACKEND_PUBLIC_IP >> inventory.txt
+
             cat .circleci/ansible/inventory.txt
       - persist_to_workspace:
           root: ~/
