@@ -15,13 +15,13 @@
   pre_tasks:
     - name: "wait 600 seconds for target connection to become reachable/usable."
       wait_for_connection: 
-        delay: 
+        delay: 5
         timeout: 600
 
-    # - name: "install python for Ansible."
-    #   become: yes
-    #   raw: test -e usr/bin/python/3 ||(apt -y update && install -y python3)
-    #   changed: when_false
+    - name: "install python for Ansible."
+      become: yes
+      raw: test -e usr/bin/python/3 ||(apt -y update && install -y python3)
+      changed: when_false
 
   # Get the environment variables from CircleCI and add to the EC2 instance
   environment:
