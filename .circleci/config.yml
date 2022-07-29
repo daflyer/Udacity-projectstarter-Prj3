@@ -258,10 +258,11 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            sudo apt update 
-            sudo apt upgrade -y
-            cd frontend
-            npm install
+# sudo apt update 
+            # sudo apt upgrade -y
+            # cd frontend
+            # npm install
+            apk add --update --no-cache tar gzip nodejs npm aws-cli curl
       - run:
           name: Get backend url
           command: |
