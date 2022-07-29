@@ -250,7 +250,7 @@ jobs:
       - revert-migrations
   deploy-frontend:
     docker:
-      - image: circleci/node:13.8.0
+      - image: python:3.7-alpine3.16
     steps:
       - checkout
       - restore_cache:
@@ -258,12 +258,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            sudo apt update 
-            sudo apt upgrade -y
-            cd frontend
-            npm install
-            yum install -y tar gzip
-            pip install awscli
+            apk add --update --no-cache tar gzip nodejs npm aws-cli
       - run:
           name: Get backend url
           command: |
