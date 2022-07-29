@@ -258,7 +258,12 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update --no-cache tar gzip nodejs npm aws-cli curl
+            sudo apt update 
+            sudo apt upgrade -y
+            cd frontend
+            npm install
+            yum install -y tar gzip
+            pip install awscli
       - run:
           name: Get backend url
           command: |
