@@ -246,9 +246,8 @@ jobs:
               curl https://kvdb.io/TaacohqZxDnkMKakQUCxm8/migration_${CIRCLE_WORKFLOW_ID:0:7} -d '1'
             fi
             echo "WorkflowID=${CIRCLE_WORKFLOW_ID:0:7}"
+      - destroy-environment     
       - revert-migrations
-      - destroy-environment:
-          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
   deploy-frontend:
     docker:
       - image: circleci/node:13.8.0
