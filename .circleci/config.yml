@@ -30,7 +30,7 @@ commands:
             if [ $SUCCESS -eq 1 ];
             then
               cd ~/project/backend
-              npm install --legacy-peer-deps
+              npm install
               npm run migrations:revert
             fi
 
@@ -281,9 +281,7 @@ jobs:
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
-            # when: on_fail
       - revert-migrations
-            # when: on_fail
       
   deploy-backend:
     docker:
@@ -364,9 +362,9 @@ jobs:
             else
               return 1
             fi
-      - destroy-environment:
-          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
-      - revert-migrations
+      # - destroy-environment:
+      #     workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+      # - revert-migrations
 
 workflows:
   default:
