@@ -6,18 +6,17 @@ commands:
     parameters:
       workflow_id:
         type: string
-        default: "${CIRCLE_WORKFLOW_ID}"
+        # default: "${CIRCLE_WORKFLOW_ID}"
     steps:
       - run:
           name: Destroy environments
           when: on_fail
           command: |
-            aws cloudformation delete-stack --stack-name udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
-      - run:
-          name: Destroy environments
-          when: on_fail
-          command: |
-            aws cloudformation delete-stack --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
+            echo "Destroying environment: << parameters.workflow_id >> "
+            aws cloudformation delete-stack --stack-name udapeople-backend-<<parameters.workflow_id>>
+            aws s3 rm s3://udapeople-<<parameters.workflow_id>> --recursive
+            aws cloudformation delete-stack --stack-name udapeople-frontend-<<parameters.workflow_id>>
+
 
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
@@ -26,8 +25,8 @@ commands:
           name: Revert migrations
           when: on_fail
           command: |
-            SUCCESS=$(curl https://kvdb.io/Ajy8T9YpmBuxY1yCo2nhQX/migration_${CIRCLE_WORKFLOW_ID:0:7})
-            if [ $SUCCESS -eq 1 ];
+            SUCCESS=$(curl https://kvdb.io/Ajy8T9YpmBuxY1yCo2nhQX/migration_<<parameters.workflow_id>>)
+            if (( $SUCCESS == 1 ));
             then
               cd ~/project/backend
               npm install
@@ -312,9 +311,9 @@ jobs:
             cd .circleci/ansible
             echo "Contents of the inventory.txt file is ------$(cat inventory.txt)"
             ansible-playbook -i inventory.txt deploy-backend.yml
-      # - destroy-environment:
-      #     workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
-      # - revert-migrations
+      - destroy-environment:
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+      - revert-migrations
       
   smoke-test:
     docker:
@@ -362,9 +361,9 @@ jobs:
             else
               return 1
             fi
-      # - destroy-environment:
-      #     workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
-      # - revert-migrations
+      - destroy-environment:
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+      - revert-migrations
 
 workflows:
   default:
