@@ -1,12 +1,14 @@
 version: 2.1
 
+
+    
 commands:
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
       workflow_id:
         type: string
-        default: "${CIRCLE_WORKFLOW_ID}"
+        # default: "${CIRCLE_WORKFLOW_ID}"
     steps:
       - run:
           name: Destroy environments
@@ -20,6 +22,9 @@ commands:
 
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
+    parameters:
+      workflow_id:
+        type: string
     steps:
       - run:
           name: Revert migrations
