@@ -211,16 +211,15 @@ jobs:
             echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> ~/project/backend/.env
             echo TYPEORM_PORT=$TYPEORM_PORT >> ~/project/backend/.env
             echo TYPEORM_USERNAME=$TYPEORM_USERNAME >> ~/project/backend/.env
+
             cat ~/project/backend/.env
             cd ~/project/.circleci/ansible/
             ansible-playbook -i inventory.txt configure-server.yml
-      # # script to install node exporter on backend.
-      # - run:
-      #     name: Setup Prometheus Node Exporter
-      #     command: |
-      #       cd .circleci/ansible
-      #       cat inventory.txt
-      #       ansible-playbook -i inventory.txt configure-server.yml
+
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project/backend/.env
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 #     # Here's where you will add some code to rollback on failure   
