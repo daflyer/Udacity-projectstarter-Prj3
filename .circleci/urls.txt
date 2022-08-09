@@ -3,8 +3,8 @@ https://github.com/daflyer/Udacity-projectstarter-Prj3
 
 
 public URL for your S3 Bucket (aka, your front-end). [URL02]- 
-http://udapeople-57f1dbc.s3-website-us-east-1.amazonaws.com
+http://udapeople-cbeea79.s3-website-us-east-1.amazonaws.com
 
 
 Cloudfront Domain
-duwpb2vpk95qu.cloudfront.net	
+http://d1hf27g4127ci.cloudfront.net		
