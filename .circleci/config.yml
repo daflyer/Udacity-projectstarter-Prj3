@@ -187,7 +187,7 @@ jobs:
       - add_ssh_keys: 
           fingerprints: ["3e:b6:07:df:a4:32:82:43:0d:9e:a1:05:1f:da:84:01"]
       - attach_workspace:
-          at: .
+        at: ~/
       - run: 
           name: View content of inventory.txt
           command: cat .circleci/ansible/inventory.txt 
@@ -198,8 +198,7 @@ jobs:
             apk add --update aws-cli curl tar gzip ansible nodejs npm
             pip install awscli
             aws --version
-      - attach_workspace:
-        at: ~/
+
   #run the playbook to oonfigure server on EC2
       - run:
           name: Configure server
